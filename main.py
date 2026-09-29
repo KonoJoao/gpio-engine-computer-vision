@@ -4,7 +4,8 @@ from DetectorMaos import DetectorMaos
 from gpiozero import Servo
 from time import sleep
 from gpiozero.pins.lgpio import LGPIOFactory
-factory = LGPIOFactory(chip=15)
+# factory = LGPIOFactory(chip=15)
+factory = LGPIOFactory(chip=0)
 
 camera = cv.VideoCapture(0)
 rodando = True
