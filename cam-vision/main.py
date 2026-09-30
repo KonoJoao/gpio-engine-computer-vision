@@ -28,11 +28,13 @@ while rodando:
     # --- Realizar a detecção das mãos --- #
     imagem, vel = detector.encontrar_maos(imagem)
 
-    cv.putText(imagem, f'Velocidade atual: {str(vel)}%', (100, 100), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+    cv.putText(imagem, f'Velocidade atual: {str(vel)}%' if vel != None else "Nenhuma mao detectada", (100, 100), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
 
     # --- Publicar a velocidade atual no broker MQTT --- #
-    cliente.publish(MQTT_TOPIC, str(vel))
-    print("Mensagem publicada no broker MQTT")
+
+    if vel != None:
+        cliente.publish(MQTT_TOPIC, str(vel))
+        print(f"Mensagem publicada no broker MQTT {str(vel)}")
 
     # --- Lista com os pontos --- #
     lista_pontos = detector.encontrar_pontos(imagem)

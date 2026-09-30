@@ -102,6 +102,8 @@ class DetectorMaos:
                 for ativado in dedos_ativados:
                     if ativado:
                         vel += 20
+            else:
+                vel = None
 
             return imagem, vel
 
