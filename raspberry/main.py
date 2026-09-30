@@ -40,7 +40,7 @@ def ao_receber(client, userdata, msg):
     print("Mensagem recebida do broker MQTT")
     try:
         velocidade_atual = int(float(msg.payload.decode()))
-        print(map_speed(velocidade_atual))
+        print(f"velocidade recebida: {velocidade_atual} velocidade calculada: {map_speed(velocidade_atual)}")
     except ValueError:
         return
     brushless.value = map_speed(velocidade_atual)
