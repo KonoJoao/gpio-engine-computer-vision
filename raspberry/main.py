@@ -7,7 +7,7 @@ from gpiozero.pins.lgpio import LGPIOFactory
 
 # === Configuração do broker MQTT ===
 MQTT_BROKER = os.getenv("MQTT_BROKER", "iot.coreflux.cloud")
-MQTT_PORT = int(os.getenv("MQTT_PORT", "8883"))
+MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
 MQTT_TOPIC = os.getenv("MQTT_TOPIC", "motor/velocidade")
 
 # === Configuração do ESC no GPIO18 ===
@@ -32,10 +32,12 @@ velocidade_atual = 0
 
 def ao_conectar(client, userdata, flags, reason_code, properties):
     client.subscribe(MQTT_TOPIC)
+    print("Conectado ao broker MQTT")
 
 
 def ao_receber(client, userdata, msg):
     global velocidade_atual
+    print("Mensagem recebida do broker MQTT")
     try:
         velocidade_atual = int(float(msg.payload.decode()))
         print(map_speed(velocidade_atual))

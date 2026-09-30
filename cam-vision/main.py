@@ -7,11 +7,12 @@ from DetectorMaos import DetectorMaos
 
 # === Configuração do broker MQTT ===
 MQTT_BROKER = os.getenv("MQTT_BROKER", "iot.coreflux.cloud")
-MQTT_PORT = int(os.getenv("MQTT_PORT", "8883"))
+MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
 MQTT_TOPIC = os.getenv("MQTT_TOPIC", "motor/velocidade")
 
 cliente = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 cliente.connect(MQTT_BROKER, MQTT_PORT, 60)
+print("Conectado ao broker MQTT")
 cliente.loop_start()
 
 camera = cv.VideoCapture(0)
@@ -31,6 +32,7 @@ while rodando:
 
     # --- Publicar a velocidade atual no broker MQTT --- #
     cliente.publish(MQTT_TOPIC, str(vel))
+    print("Mensagem publicada no broker MQTT")
 
     # --- Lista com os pontos --- #
     lista_pontos = detector.encontrar_pontos(imagem)
