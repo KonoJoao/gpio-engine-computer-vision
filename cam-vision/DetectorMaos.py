@@ -94,10 +94,16 @@ class DetectorMaos:
                         elif pontos[x][1] > pontos[x - 2][1]:
                             dedos_ativados[id] = False
 
-                    if pontos[4][0] < pontos[2][0]:
-                        dedos_ativados[4] = True
-                    elif pontos[4][0] < pontos[2][0]:
-                        dedos_ativados[4] = False
+                    if pontos[4][0] > pontos[20][0]:
+                        if pontos[4][0] > pontos[2][0]:
+                            dedos_ativados[4] = True
+                        elif pontos[4][0] < pontos[2][0]:
+                            dedos_ativados[4] = False
+                    else:
+                        if pontos[4][0] < pontos[2][0]:
+                            dedos_ativados[4] = True
+                        elif pontos[4][0] > pontos[2][0]:
+                            dedos_ativados[4] = False
 
                 for ativado in dedos_ativados:
                     if ativado:
