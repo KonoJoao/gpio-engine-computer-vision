@@ -11,8 +11,8 @@ MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
 MQTT_TOPIC = os.getenv("MQTT_TOPIC", "motor/velocidade")
 
 # === Configuração do ESC no GPIO18 ===
-# factory = LGPIOFactory(chip=15)
-factory = LGPIOFactory(chip=0)
+factory = LGPIOFactory(chip=15)
+
 brushless = Servo(18, min_pulse_width=1e-3, max_pulse_width=2e-3, pin_factory=factory)
 
 # Inicializa motor no mínimo (parado)
