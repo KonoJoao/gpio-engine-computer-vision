@@ -20,21 +20,34 @@ rodando = True
 
 detector = DetectorMaos(max_maos=1)
 
+def calcular_velocidade(dedos_ativados):
+    vel = 0
+
+    if dedos_ativados != None:
+        for ativado in dedos_ativados:
+            if ativado:
+                vel += 20
+
+    return vel
+
+
 while rodando:
     status, frame = camera.read()
 
     imagem = cv.flip(frame, 1)
 
     # --- Realizar a detecção das mãos --- #
-    imagem, vel = detector.encontrar_maos(imagem)
+    imagem, dedos_ativados = detector.encontrar_maos(imagem)
 
-    cv.putText(imagem, f'Velocidade atual: {str(vel)}%' if vel != None else "Nenhuma mao detectada", (100, 100), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+    vel = calcular_velocidade(dedos_ativados)
 
     # --- Publicar a velocidade atual no broker MQTT --- #
-
-    if vel != None:
+    if dedos_ativados != None:
         cliente.publish(MQTT_TOPIC, str(vel))
         print(f"Mensagem publicada no broker MQTT {str(vel)}")
+
+    cv.putText(imagem, f'Velocidade atual: {str(vel)}%' if dedos_ativados != None else "Nenhuma mao detectada",
+                   (100, 100), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
 
     # --- Lista com os pontos --- #
     lista_pontos = detector.encontrar_pontos(imagem)

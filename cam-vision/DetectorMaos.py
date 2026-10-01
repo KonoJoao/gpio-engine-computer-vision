@@ -61,7 +61,6 @@ class DetectorMaos:
 
             # --- Verificar se alguma mão foi detectada --- #
             pontos = []
-            vel = 0
             dedos = [8, 12, 16, 20]
             dedos_ativados = [False, False, False, False, False]
 
@@ -84,15 +83,14 @@ class DetectorMaos:
                         )
 
 
-                if points:
-                    for id, x in enumerate(dedos):
-                        if id == 4:
-                            continue
+                for id, x in enumerate(dedos):
+                    if id == 4:
+                        continue
 
-                        if pontos[x][1] < pontos[x-2][1]:
-                            dedos_ativados[id] = True
-                        elif pontos[x][1] > pontos[x - 2][1]:
-                            dedos_ativados[id] = False
+                    if pontos[x][1] < pontos[x-2][1]:
+                          dedos_ativados[id] = True
+                    elif pontos[x][1] > pontos[x - 2][1]:
+                          dedos_ativados[id] = False
 
                     if pontos[4][0] > pontos[20][0]:
                         if pontos[4][0] > pontos[2][0]:
@@ -105,13 +103,10 @@ class DetectorMaos:
                         elif pontos[4][0] > pontos[2][0]:
                             dedos_ativados[4] = False
 
-                for ativado in dedos_ativados:
-                    if ativado:
-                        vel += 20
             else:
-                vel = None
+                dedos_ativados = None
 
-            return imagem, vel
+            return imagem, dedos_ativados
 
     def encontrar_pontos(self, imagem, mao_num=0, desenho=True, cor=(255, 0, 255), raio=7, ponto_detectado=0):
         """
